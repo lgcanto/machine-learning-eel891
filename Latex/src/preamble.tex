@@ -1,0 +1,56 @@
+%\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage[utf8]{inputenc} 
+\usepackage[portuguese]{babel}
+\usepackage[font=normalsize,format=plain,labelfont=bf,up,textfont=up,figurename=Figura,tablename=Tabela]{caption}
+\usepackage{subcaption}
+\usepackage[top=1in, bottom=1in, left=1.25in, right=1.25in]{geometry}
+\usepackage{indentfirst}
+\usepackage{fancyhdr}
+
+% Font packages
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{steinmetz}
+% Nice extra font package, e.g. \mathds{1}
+\usepackage{dsfont}
+
+
+% Use multiple rows when writing tables
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{bigstrut}
+    \setlength\bigstrutjot{3pt}
+
+% Uncomment next line to make footnots per page
+\usepackage{perpage}
+
+% Uncoment next group of lines to create the table of contents for the PDF
+\usepackage{hyperref}
+\definecolor{darkblue}{rgb}{0,0,0.5}
+\hypersetup{
+    pdftitle={Título},
+    pdfauthor={Lucas Canto},
+    bookmarksnumbered=true,     
+    bookmarksopen=true,         
+    bookmarksopenlevel=1,       
+    colorlinks=true,
+    linkcolor=darkblue,
+    filecolor=darkblue,  
+    urlcolor=darkblue,  
+    citecolor=darkblue,              
+    pdfstartview=Fit,           
+    pdfpagemode=UseOutlines,    % this is the option you were lookin for
+    pdfpagelayout=TwoPageRight
+}
+
+\renewcommand{\title}{House Prices - Machine Learning}
+\newcommand{\subtitle}{Tópicos Especiais em Sistemas de Controle}
+\pagestyle{fancy}
+\fancyhead[L]{\title}
+\fancyhead[R]{\subtitle}
+\fancyhead[C]{\thepage}
+\fancyfoot[C]{}
+
+\allowdisplaybreaks
