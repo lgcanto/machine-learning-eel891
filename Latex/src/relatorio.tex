@@ -38,19 +38,30 @@
 	\end{itemize}
 	
 		\subsection{Matriz de Correlação}
-		\paragraph{}De modo a limitar o espaço amostral e restringir algumas etapas do pré-processamento apenas à variáveis que possuam uma relação mais direta à variável objetivo, a matriz de correlação das variáveis dependentes em relação ao preço foi analisada.
+			\paragraph{}De modo a limitar o espaço amostral e restringir algumas etapas do pré-processamento apenas à variáveis que possuam uma relação mais direta à variável objetivo, a matriz de correlação das variáveis dependentes em relação ao preço foi analisada.
+			
+			\begin{figure}[h]
+				\centering
+				\includegraphics[scale=0.9]{../img/correlation}
+				\caption{Matriz de correlação das 10 variáveis mais correlatas a SalePrice}
+			\end{figure}
+			
+			\paragraph{}É possível verificar que quase todas as variáveis verificadas como as mais correlatas se apresentam como numéricas, com a exceção de \textit{OverallQual} que coincidentemente também se apresentou como a variável mais correlata.
+			
+			\paragraph{}Como \textit{OverallQual} se trata de uma variável categórica, esta variável não irá ser modificada nas etapas de relação de outliers e normalização, visto que isto poderia acarretar na perda de possíveis dados importantes para o treino da estratégia.
+			
+			\paragraph{}Outro fator a ser analisado é a semelhança de valores de correlação entre variáveis dependentes, isto indica que não há necessidade de utilizar duas variáveis com o mesmo grau de correlação pois elas possivelmente tem um comportamento semelhante perante a variável objetivo. Pares de variáveis como \textit{GarageCars} e \textit{GarageArea}, \textit{TotalBsmtSF} e \textit{1stFloor}, \textit{TotRmsAbvGrd} e \textit{GrLivArea} se encaixam nessa característica.
+			
+		\subsection{Remoção de Outliers}
+			\paragraph{}Baseado na decisão da seção anterior de utilizar apenas as variáveis com maior correlação em relação ao preço das casas, foram selecionadas as seguintes variáveis para a avaliação de outliers: \textit{OverallQual}, \textit{GrLivArea}, \textit{GarageCars}, \textit{TotalBsmtSF}, \textit{FullBath} e \textit{YearBuilt}.
+			
+			\paragraph{}O plot bivariável de cada variável escolhida foi gerado junto a \textit{SalePrice} e este foi analisado.
 		
-		\begin{figure}[h]
-			\centering
-			\includegraphics[scale=0.9]{../img/correlation}
-			\caption{Matriz de correlação das 10 variáveis mais correlatas a SalePrice}
-		\end{figure}
-		
-		\paragraph{}É possível verificar que quase todas as variáveis verificadas como as mais correlatas se apresentam como numéricas, com a exceção de \textit{OverallQual} que coincidentemente também se apresentou como a variável mais correlata.
-		
-		\paragraph{}Como \textit{OverallQual} se trata de uma variável categórica, esta variável não irá ser modificada nas etapas de relação de outliers e normalização, visto que isto poderia acarretar na perda de possíveis dados importantes para o treino da estratégia.
-		
-		\paragraph{}Outro fator a ser analisado é a semelhança de valores de correlação entre variáveis dependentes, isto indica que não há necessidade de utilizar duas variáveis com o mesmo grau de correlação pois elas possivelmente tem um comportamento semelhante perante a variável objetivo. Pares de variáveis como \textit{GarageCars} e \textit{GarageArea}, \textit{TotalBsmtSF} e \textit{1stFloor}, \textit{TotRmsAbvGrd} e \textit{GrLivArea} se encaixam nessa característica.
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=0.35]{../img/scatter}
+				\caption{Matriz de correlação das 10 variáveis mais correlatas a SalePrice}
+			\end{figure}
 		
 \section{Treinamento e Previsão}
 	\paragraph{}Teste.

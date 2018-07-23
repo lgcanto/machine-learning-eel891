@@ -13,6 +13,7 @@ from sklearn.preprocessing import RobustScaler
 from sklearn.base import BaseEstimator, TransformerMixin, RegressorMixin, clone
 from sklearn.model_selection import KFold, cross_val_score, train_test_split
 from sklearn.metrics import mean_squared_error
+import lightgbm as lgb
 def ignore_warn(*args, **kwargs):
     pass
 warnings.warn = ignore_warn #Ignora warnings do sklearn e do seaborn
@@ -39,10 +40,16 @@ sns.set(font_scale=1.25)
 hm = sns.heatmap(cm, cbar=True, annot=True, square=True, fmt='.2f', annot_kws={'size': 10}, yticklabels=cols.values, xticklabels=cols.values)
 plt.show()
 
+#Scatter plot de variáveis mais correlatas:
+sns.set()
+cols = ['SalePrice', 'OverallQual', 'GrLivArea', 'GarageCars', 'TotalBsmtSF', 'FullBath', 'YearBuilt']
+sns.pairplot(train[cols], size = 2.5)
+plt.show();
+
 #Remoção de Outliers
 #Verificamos que OverallQual é a variável com maior correlação. Mas como esta é 
-#uma variável categórica, a remoção de outliers irá acontecer apenas na segunda
-#variável mais correlata, isto é, GrLivArea
+#uma variável categórica, a remoção de outliers irá acontecer apenas com
+#GrLivArea e TotalBsmtSF
 
 #Verificando os outliers de GrLivArea:
 fig, ax = plt.subplots()
@@ -60,6 +67,23 @@ fig, ax = plt.subplots()
 ax.scatter(train['GrLivArea'], train['SalePrice'])
 plt.ylabel('SalePrice', fontsize=13)
 plt.xlabel('GrLivArea', fontsize=13)
+plt.show()
+
+#Verificando os outliers de TotalBsmtSF:
+fig, ax = plt.subplots()
+ax.scatter(x = train['TotalBsmtSF'], y = train['SalePrice'])
+plt.ylabel('SalePrice', fontsize=13)
+plt.xlabel('TotalBsmtSF', fontsize=13)
+plt.show()
+
+#Removendo os outliers, isto é, os pontos com TotalBsmtSF acima de 3000:
+train = train.drop(train[(train['TotalBsmtSF']>3000)].index)
+
+#Verificando a ausência dos OutLiers:
+fig, ax = plt.subplots()
+ax.scatter(train['TotalBsmtSF'], train['SalePrice'])
+plt.ylabel('SalePrice', fontsize=13)
+plt.xlabel('TotalBsmtSF', fontsize=13)
 plt.show()
 
 
@@ -92,12 +116,12 @@ all_data.drop(['SalePrice'], axis=1, inplace=True)
 all_data_na = (all_data.isnull().sum() / len(all_data)) * 100
 all_data_na = all_data_na.drop(all_data_na[all_data_na == 0].index).sort_values(ascending=False)[:30]
 missing_data = pd.DataFrame({'Porcentagem de nulos' :all_data_na})
-missing_data.head(20)
+missing_data.head(50)
 
 
 
 #PULANDO ALGUMAS ETAPAS AFIM DE TESTES#
-all_data = all_data.fillna("None")
+all_data = all_data.fillna(method='ffill')
 all_data = pd.get_dummies(all_data)
 train = all_data[:ntrain]
 test = all_data[ntrain:]
@@ -116,16 +140,21 @@ def rmsle_cv(model):
 def rmsle(y, y_pred):
     return np.sqrt(mean_squared_error(y, y_pred))
 
-lasso = make_pipeline(RobustScaler(), Lasso(alpha =0.0005, random_state=1))
-score = rmsle_cv(lasso)
-print("\nLasso score: {:.4f} ({:.4f})\n".format(score.mean(), score.std()))
+model_lgb = lgb.LGBMRegressor(objective='regression',num_leaves=5,
+                              learning_rate=0.05, n_estimators=720,
+                              max_bin = 55, bagging_fraction = 0.8,
+                              bagging_freq = 5, feature_fraction = 0.2319,
+                              feature_fraction_seed=9, bagging_seed=9,
+                              min_data_in_leaf =6, min_sum_hessian_in_leaf = 11)
+score = rmsle_cv(model_lgb)
+print("LGBM score: {:.4f} ({:.4f})\n" .format(score.mean(), score.std()))
 
-lasso.fit(train.values, y_train)
-lasso_train_pred = lasso.predict(train.values)
-lasso_pred = np.expm1(lasso.predict(test.values))
-print(rmsle(y_train, lasso_train_pred))
+model_lgb.fit(train, y_train)
+lgb_train_pred = model_lgb.predict(train)
+final_pred = np.expm1(model_lgb.predict(test.values))
+print(rmsle(y_train, lgb_train_pred))
 
 sub = pd.DataFrame()
 sub['Id'] = test_ID
-sub['SalePrice'] = lasso_pred
+sub['SalePrice'] = final_pred
 sub.to_csv('submission.csv',index=False)
