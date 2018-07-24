@@ -4,14 +4,14 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
 from scipy import stats
-from scipy.stats import norm, skew
-from sklearn.linear_model import ElasticNet, Lasso,  BayesianRidge, LassoLarsIC
-from sklearn.ensemble import RandomForestRegressor,  GradientBoostingRegressor
-from sklearn.kernel_ridge import KernelRidge
+from scipy.stats import norm#, skew
+from sklearn.linear_model import Lasso
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import RobustScaler
-from sklearn.base import BaseEstimator, TransformerMixin, RegressorMixin, clone
-from sklearn.model_selection import KFold, cross_val_score, train_test_split
+#from sklearn.ensemble import RandomForestRegressor,  GradientBoostingRegressor
+#from sklearn.kernel_ridge import KernelRidge
+#from sklearn.base import BaseEstimator, TransformerMixin, RegressorMixin, clone
+from sklearn.model_selection import KFold, cross_val_score#, train_test_split
 from sklearn.metrics import mean_squared_error
 import lightgbm as lgb
 def ignore_warn(*args, **kwargs):
@@ -118,16 +118,15 @@ all_data_na = all_data_na.drop(all_data_na[all_data_na == 0].index).sort_values(
 missing_data = pd.DataFrame({'Porcentagem de nulos' :all_data_na})
 missing_data.head(50)
 
-
-
-#PULANDO ALGUMAS ETAPAS AFIM DE TESTES#
+#Preenchendo vazios utilizando foward fill:
 all_data = all_data.fillna(method='ffill')
+
+#Lidando com variáveis categóricas transformando-as em "dummies":
 all_data = pd.get_dummies(all_data)
+
+#Separando os datasets:
 train = all_data[:ntrain]
 test = all_data[ntrain:]
-#PULANDO ALGUMAS ETAPAS AFIM DE TESTES#
-
-
 
 #Função de validação RMSE
 n_folds = 5
@@ -153,6 +152,16 @@ model_lgb.fit(train, y_train)
 lgb_train_pred = model_lgb.predict(train)
 final_pred = np.expm1(model_lgb.predict(test.values))
 print(rmsle(y_train, lgb_train_pred))
+
+lasso = make_pipeline(RobustScaler(), Lasso(alpha =0.0005, random_state=1))
+score = rmsle_cv(lasso)
+print("\nLasso score: {:.4f} ({:.4f})\n".format(score.mean(), score.std()))
+
+#Caso o pacote do LightGBM não funcione, usar o Lasso:
+#lasso.fit(train.values, y_train)
+#lasso_train_pred = lasso.predict(train.values)
+#final_pred = np.expm1(lasso.predict(test.values))
+#print(rmsle(y_train, lasso_train_pred))
 
 sub = pd.DataFrame()
 sub['Id'] = test_ID
