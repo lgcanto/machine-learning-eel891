@@ -66,12 +66,114 @@
 		
 			\paragraph{}Podemos observar que existem possíveis outliers nas variáveis \textit{GrLiveArea} e \textit{TotalBsmtSF}. Há também alguns dados que podem ser considerados outliers em \textit{YearBuilt}, mas a remoção deste resultou em grande perda de informação e consequentemente numa previsão menos performática. Sendo assim, a remoção dos outliers foi feita apenas nas duas primeiras variáveis mencionadas.
 		
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=0.8]{../img/grlivearea_outliers}
+				\caption{Os dois pontos na extrema direita inferior foram considerados outliers.}
+			\end{figure}
+		
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=0.8]{../img/grlivearea_no_outliers}
+				\caption{Plot após a remoção dos outliers.}
+			\end{figure}
+		
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=0.8]{../img/totalbsmtsf_outliers}
+				\caption{Os três pontos na extrema direita foram considerados outliers no caso de \textit{TotalBsmtSF}.}
+			\end{figure}
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=0.8]{../img/totalbsmtsf_no_outliers}
+				\caption{Plot após a remoção dos outliers.}
+			\end{figure}
+		
 		\subsection{Preenchimento de Dados Nulos}
 			\paragraph{}Teste
 		
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=0.9]{../img/null_data}
+				\caption{Porcentagem de dados nulos no dataset de treino e teste concatenados.}
+			\end{figure}
+		
 		\subsection{Normalização de Variáveis}
 			\paragraph{}Teste
-		
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=0.8]{../img/saleprice_norm_1}
+				\caption{}
+			\end{figure}
+
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=0.8]{../img/saleprice_norm_2}
+				\caption{}
+			\end{figure}
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=0.8]{../img/saleprice_norm_after_1}
+				\caption{}
+			\end{figure}
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=0.8]{../img/saleprice_norm_after_2}
+				\caption{}
+			\end{figure}
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=0.8]{../img/grlivearea_norm_1}
+				\caption{}
+			\end{figure}
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=0.8]{../img/grlivearea_norm_2}
+				\caption{}
+			\end{figure}
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=0.8]{../img/grlivearea_norm_after_1}
+				\caption{}
+			\end{figure}
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=0.8]{../img/grlivearea_norm_after_2}
+				\caption{}
+			\end{figure}
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=0.8]{../img/totalbsmtsf_norm_1}
+				\caption{}
+			\end{figure}
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=0.8]{../img/totalbsmtsf_norm_2}
+				\caption{}
+			\end{figure}
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=0.8]{../img/totalbsmtsf_norm_after_1}
+				\caption{}
+			\end{figure}
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=0.8]{../img/totalbsmtsf_norm_after_2}
+				\caption{}
+			\end{figure}						
+						
 		\subsection{Transformando Variáveis Categóricas}
 			\paragraph{}Teste
 		
@@ -82,5 +184,11 @@
 \section{Conclusão}
 
 	\paragraph{}Teste.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.6]{../img/final_score}
+		\caption{Score final almejado no site do Kaggle.}
+	\end{figure}
 
 \end{document}
