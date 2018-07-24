@@ -5,9 +5,9 @@ import seaborn as sns
 import warnings
 from scipy import stats
 from scipy.stats import norm#, skew
-from sklearn.linear_model import Lasso
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import RobustScaler
+#from sklearn.linear_model import Lasso
+#from sklearn.pipeline import make_pipeline
+#from sklearn.preprocessing import RobustScaler
 from sklearn.model_selection import KFold, cross_val_score
 from sklearn.metrics import mean_squared_error
 import lightgbm as lgb
@@ -204,7 +204,9 @@ final_pred = np.expm1(model_lgb.predict(test.values))
 print(rmsle(y_train, lgb_train_pred))
 
 #Caso o pacote do LightGBM não funcione, usar o Lasso: (comentar a parte
-#do LightGBM e descomentar esta parte abaixo do Lasso)
+#do LightGBM e descomentar esta parte abaixo do Lasso e três referências
+#comentadas no início do código)
+
 #lasso = make_pipeline(RobustScaler(), Lasso(alpha =0.0005, random_state=1))
 #score = rmsle_cv(lasso)
 #print("\nLasso score: {:.4f} ({:.4f})\n".format(score.mean(), score.std()))
