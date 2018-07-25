@@ -66,6 +66,7 @@
 		
 			\paragraph{}Podemos observar que existem possíveis outliers nas variáveis \textit{GrLiveArea} e \textit{TotalBsmtSF}. Há também alguns dados que podem ser considerados outliers em \textit{YearBuilt}, mas a remoção deste resultou em grande perda de informação e consequentemente numa previsão menos performática. Sendo assim, a remoção dos outliers foi feita apenas nas duas primeiras variáveis mencionadas.
 		
+			\paragraph{}Em \textit{GrLiveArea}, houveram pontos de grande valor de área de convivência com baixo preço. Estes pontos podem significar valores de casas que se encontram numa área rural da cidade, mas foram considerados outliers por sua baixa frequência.
 			\begin{figure}[H]
 				\centering
 				\includegraphics[scale=0.8]{../img/grlivearea_outliers}
@@ -77,7 +78,9 @@
 				\includegraphics[scale=0.8]{../img/grlivearea_no_outliers}
 				\caption{Plot após a remoção dos outliers.}
 			\end{figure}
-		
+			
+			\paragraph{}Para \textit{TotalBsmtSF}, alguns pontos foram visualmente considerados outliers por não seguirem o fluxo de outros pontos do dataset.
+			
 			\begin{figure}[H]
 				\centering
 				\includegraphics[scale=0.8]{../img/totalbsmtsf_outliers}
@@ -91,7 +94,9 @@
 			\end{figure}
 		
 		\subsection{Preenchimento de Dados Nulos}
-			\paragraph{}Teste
+			\paragraph{}Algumas amostragens, tanto no dataset de treino quanto no dataset de teste, apresentavam valores nulos em algumas variáveis dependentes, fazendo com que fosse necessário um tratamento desses dados antes de utiliza-los no algoritmo de treino.
+			
+			\paragraph{}A técnica utilizada em todos os valores nulos que existiam em ambos os datasets foi o \textit{Foward Fill} disponível no pacote \textit{pandas}. Esta técnica consiste em preencher um valor vazio a partir de um valor preenchido em uma amostragem anterior, fazendo com que ocorra uma continuidade entre pontos. 
 		
 			\begin{figure}[H]
 				\centering
@@ -99,91 +104,112 @@
 				\caption{Porcentagem de dados nulos no dataset de treino e teste concatenados.}
 			\end{figure}
 		
+			\paragraph{}Porém, em alguns casos, como para as variáveis \textit{PoolQC}, \textit{MiscFeature}, \textit{Alley} e \textit{Fence}, que apresentam uma alta porcentagem de valores nulos, esta técnica não se mostra tão promissora pois a repetição dos únicos dados existentes pode causar um certo vício na curva a ser aproximada através destes dados.
+		
 		\subsection{Normalização de Variáveis}
-			\paragraph{}Teste
+			\paragraph{}Como em tese, os dados devem se assemelhar a uma distribuição normal porque testes estatísticos contam com isto, foi aplicada uma transformação logarítmica para que sua assimetria fosse diminuída.
+			
+			\paragraph{}No caso de \textit{SalePrice}, por sua ausência no dataset de teste, a normalização ocorreu apenas no dataset de treino.
 			
 			\begin{figure}[H]
 				\centering
 				\includegraphics[scale=0.8]{../img/saleprice_norm_1}
-				\caption{}
+				\caption{Histograma de \textit{SalePrice}}
 			\end{figure}
 
 			\begin{figure}[H]
 				\centering
 				\includegraphics[scale=0.8]{../img/saleprice_norm_2}
-				\caption{}
+				\caption{Distribuição de probabilidade de \textit{SalePrice}}
 			\end{figure}
 			
 			\begin{figure}[H]
 				\centering
 				\includegraphics[scale=0.8]{../img/saleprice_norm_after_1}
-				\caption{}
+				\caption{Histograma de \textit{SalePrice} após a transformação}
 			\end{figure}
 			
 			\begin{figure}[H]
 				\centering
 				\includegraphics[scale=0.8]{../img/saleprice_norm_after_2}
-				\caption{}
+				\caption{Distribuição de probabilidade de \textit{SalePrice} após a transformação}
 			\end{figure}
+			
+			\paragraph{}De forma semelhante, mas para os datasets concatenados, a normalização de \textit{GrLivArea} também foi feita através de transformação logarítmica.
 			
 			\begin{figure}[H]
 				\centering
 				\includegraphics[scale=0.8]{../img/grlivearea_norm_1}
-				\caption{}
+				\caption{Histograma de \textit{GrLivArea}}
 			\end{figure}
 			
 			\begin{figure}[H]
 				\centering
 				\includegraphics[scale=0.8]{../img/grlivearea_norm_2}
-				\caption{}
+				\caption{Distribuição de probabilidade de \textit{GrLivArea}}
 			\end{figure}
 			
 			\begin{figure}[H]
 				\centering
 				\includegraphics[scale=0.8]{../img/grlivearea_norm_after_1}
-				\caption{}
+				\caption{Histograma de \textit{GrLivArea} após a transformação}
 			\end{figure}
 			
 			\begin{figure}[H]
 				\centering
 				\includegraphics[scale=0.8]{../img/grlivearea_norm_after_2}
-				\caption{}
+				\caption{Distribuição de probabilidade de \textit{GrLivArea} após a transformação}
 			\end{figure}
+			
+			\paragraph{}Por ter muitos valores iguais a zero, significando casas sem porão, a transformação logarítmica na variável \textit{TotalBsmtSF} foi feita em todos os pontos menos os pontos com \textit{TotalBsmtSF} iguais a zero.
 			
 			\begin{figure}[H]
 				\centering
 				\includegraphics[scale=0.8]{../img/totalbsmtsf_norm_1}
-				\caption{}
+				\caption{Histograma de \textit{TotalBsmtSF}}
 			\end{figure}
 			
 			\begin{figure}[H]
 				\centering
 				\includegraphics[scale=0.8]{../img/totalbsmtsf_norm_2}
-				\caption{}
+				\caption{Distribuição de probabilidade de \textit{TotalBsmtSF}}
 			\end{figure}
 			
 			\begin{figure}[H]
 				\centering
 				\includegraphics[scale=0.8]{../img/totalbsmtsf_norm_after_1}
-				\caption{}
+				\caption{Histograma de \textit{TotalBsmtSF} após a transformação}
 			\end{figure}
 			
 			\begin{figure}[H]
 				\centering
 				\includegraphics[scale=0.8]{../img/totalbsmtsf_norm_after_2}
-				\caption{}
+				\caption{Distribuição de probabilidade de \textit{TotalBsmtSF} após a transformação}
 			\end{figure}						
 						
 		\subsection{Transformando Variáveis Categóricas}
-			\paragraph{}Teste
+			\paragraph{}As variáveis categóricas foram transformadas em \textit{dummies} utilizando um método com este objetivo específico do pacote \textit{pandas}.
+			
+			\paragraph{}Este método faz com que cada categoria de cada variável categórica se transforme em uma nova coluna no dataset, isto é, uma nova variável dependente onde é possível apenas ter o valor atribuído com 0 ou 1 (falso ou verdadeiro). As colunas que comportavam as variáveis categóricas são substituídas pelas \textit{dummies} que representam suas categorias no dataset.
 		
 		
 \section{Treinamento e Previsão}
-	\paragraph{}Teste.
+	\paragraph{}Após o pré-processamento dos dados, a função de validação cruzada foi definida utilizando desvio médio quadrado (RMSE).
+
+	\paragraph{}O dataset resultante da concatenação dos dados de treino e teste foram novamente separados e o dataset de treino foi treinado utilizando o pacote \textit{LightGBM} da Microsoft que se resume em um framework que utiliza um método rápido e de alta performance de descida de gradiente para otimização.
 	
+	\paragraph{}Um score a partir da comparação entre os preços previstos pelas variáveis dependentes no dataset de treino e os preços do mesmo dataset foi levantado e obteve o valor de $0.1153 (0.0088)$, este valor não foi considerado alto e foi importante para mostrar que possivelmente o modelo gerado não estava com \textit{overfitting}, o que ocasionaria num ótimo desempenho no dataset de treino mas um desempenho ruim no dataset de teste.
+	
+	\paragraph{}Utilizando o modelo levantado, os preços das casas com as características citadas no dataset de teste foram previstos e gravados no arquivo \textit{submission.csv} e este foi enviado ao Kaggle para apuração.
 \section{Conclusão}
 
-	\paragraph{}Teste.
+	\paragraph{}Após o envio da previsão para o Kaggle, o rank atribuído ao modelo enviado foi a colocação de $885/4803$, que tardiamente caiu para $888/4803$ e pode ser que caia ainda mais no futuro diante da alta competitividade da competição.
+	
+	\paragraph{}Ainda assim, foi possível se alocar dentre a porcentagem dos $19\%$ melhores da competição, o que foi pessoalmente satisfatório.
+	
+	\paragraph{}Para futuras melhorias e reflexões em projetos semelhantes, pode-se argumentar que algumas acochambrações poderiam ter sido evitadas em algumas etapas do processo.
+	
+	\paragraph{}Por exemplo, o  método utilizado para o preenchimento de dados vazios foi genérico e generalista, o que negligenciou uma possível melhora de desempenho ao tratar cada caso de variável independente isoladamente. Algumas outras técnicas estatísticas, como a transformação \textit{Box Cox} em variáveis de distribuição menos uniformes também foram deixadas de lado, o que poderia substancialmente aumentar o desempenho do modelo gerado.
 	
 	\begin{figure}[H]
 		\centering
