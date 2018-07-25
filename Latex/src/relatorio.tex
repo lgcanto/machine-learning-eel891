@@ -29,7 +29,7 @@
 	
 	\paragraph{}Como já informado, a variável objetivo no problema é o preço das casas, denominado nos dados de treino como SalePrice. As variáveis dependentes se resumem em valores numéricos e categóricos que representam atributos físicos, espaciais e geográficos da casa, estas informações variam desde a área em metros quadrados do porão e do primeiro andar da casa até o número de piscinas e qualidade geral do imóvel. Informações mais detalhadas sobre estas variáveis dependentes podem ser encontradas no arquivo \textit{data\_description.txt} fornecido pelo Kaggle. No total existem 80 variáveis dependentes à disposição de processamento.
 	
-	\paragraph{}A etapa de pré-processamento se dividiu em 4 etapas:
+	\paragraph{}A etapa de pré-processamento se dividiu em 5 etapas:
 	\begin{itemize}
 		\item Verificação de variáveis com maior correlação ao preço
 		\item Remoção de \textit{Outliers}
@@ -209,7 +209,7 @@
 	
 	\paragraph{}Para futuras melhorias e reflexões em projetos semelhantes, pode-se argumentar que algumas acochambrações poderiam ter sido evitadas em algumas etapas do processo.
 	
-	\paragraph{}Por exemplo, o  método utilizado para o preenchimento de dados vazios foi genérico e generalista, o que negligenciou uma possível melhora de desempenho ao tratar cada caso de variável independente isoladamente. Algumas outras técnicas estatísticas, como a transformação \textit{Box Cox} em variáveis de distribuição menos uniformes também foram deixadas de lado, o que poderia substancialmente aumentar o desempenho do modelo gerado.
+	\paragraph{}Por exemplo, o  método utilizado para o preenchimento de dados vazios foi genérico e generalista, o que negligenciou uma possível melhora de desempenho ao não tratar cada caso de variável independente de forma isolada. Algumas outras técnicas estatísticas, como a transformação \textit{Box Cox} em variáveis de distribuição menos uniformes também foram deixadas de lado, o que poderia substancialmente aumentar o desempenho do modelo gerado.
 	
 	\begin{figure}[H]
 		\centering
